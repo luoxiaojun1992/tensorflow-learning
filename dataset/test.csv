@@ -1,2 +1,2 @@
 code,label
-"package main\n\nimport (\n	\"fmt\"\n	\"sync\"\n	\"time\"\n)\n\nvar counter int\nvar wg sync.WaitGroup\n\nfunc increment() {\n	defer wg.Done()\n	for i := 0; i < 1000; i++ {\n		value := counter\n		// 模拟一些处理时间\n		time.Sleep(time.Millisecond)\n		counter = value + 1\n	}\n}\n\nfunc main() {\n	wg.Add(2)\n\n	go increment()\n	go increment()\n\n	wg.Wait()\n\n	fmt.Println(\"Final Counter:\"\, counter)\n}\n",1
+"package mainimport (	fmt	sync	time)var counter intvar wg sync.WaitGroupfunc increment() {	defer wg.Done()	for i := 0; i < 1000; i++ {		value := counter		// 模拟一些处理时间		time.Sleep(time.Millisecond)		counter = value + 1	}}func main() {	wg.Add(2)	go increment()	go increment()	wg.Wait()	fmt.Println(Final Counter: counter)}",1
