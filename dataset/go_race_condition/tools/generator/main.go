@@ -45,13 +45,14 @@ func main() {
 			continue
 		}
 
-		for i := 0; i < 10000; i++ {
+		for i := 0; i < 20000; i++ {
 			newCode := row[0]
 			newCode = strings.Replace(newCode, "{{placeholder_counter}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_wait_group}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_incr_func}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_decr_func}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_process_num_func}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
+			newCode = strings.Replace(newCode, "{{placeholder_append_data_func}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_recycle_init}}", fmt.Sprintf("%d", gofakeit.Int64()), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_recycle}}", fmt.Sprintf("%d", gofakeit.Int64()), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_process_num1}}", fmt.Sprintf("%d", gofakeit.Int64()), -1)
