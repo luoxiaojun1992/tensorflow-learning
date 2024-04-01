@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Merge go race condition data
-        run: cat sample.csv.* > sample.csv
+        run: cat dataset/go_race_condition/sample.csv.* > dataset/go_race_condition/sample.csv
       - name: Upload go race condition data
         uses: actions/upload-artifact@v4
         with:
