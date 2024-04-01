@@ -1,0 +1,21 @@
+name: Dataset
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Merge go race condition data
+        run: cat sample.csv.* > sample.csv
+      - name: Upload go race condition data
+        uses: actions/upload-artifact@v4
+        with:
+          name: go_race_condition.csv
+          path: output/dataset/go_race_condition.csv
