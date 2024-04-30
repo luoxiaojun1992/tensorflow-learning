@@ -1,4 +1,4 @@
-# How to setup env
+# How to setup env:
 # install cuda 12.1 and cudnn(add env vars)
 # check cuda version: nvcc -V
 # conda install python
@@ -46,14 +46,14 @@ while cap.isOpened():
             for i, label in enumerate(boxes.cls):
                 if label == 0:
                     if (boxes.xywh is not None) and (boxes.id is not None) and (i < len(boxes.xywh)) and (i < len(boxes.id)):
-                        size = boxes.xywh[i][2] * boxes.xywh[i][3]
+                        boxSize = boxes.xywh[i][2] * boxes.xywh[i][3]
                         id = boxes.id[i]
                         if id in boxesSizes:
-                            if size - boxesSizes[id] > sizeChangeThreshold:
+                            if boxSize - boxesSizes[id] > sizeChangeThreshold:
                                 print("Alert! One person is approaching!")
-                                print(size)
+                                print(boxSize)
                                 print(boxesSizes[id])
-                        boxesSizes[id] = size
+                        boxesSizes[id] = boxSize
 
         frame_with_speed = speed_obj.estimate_speed(frame, tracks)
 
