@@ -6,7 +6,7 @@
 # pip install ultralytics
 # pip install lapx
 
-import torch, cv2
+import time, torch, cv2
 from ultralytics import YOLO
 from ultralytics.solutions import speed_estimation, distance_calculation
 
@@ -28,7 +28,10 @@ dist_obj = distance_calculation.DistanceCalculation()
 dist_obj.set_args(names=model.model.names)
 
 boxesSizes = {}
-sizeChangeThreshold = 30000
+sizeChangeThreshold = 0.1
+fastSizeChangeThreshold = 0.3
+approachingAlertLock = {}
+approachingAlertLockTTL = 1
 
 # Loop through the video frames
 while cap.isOpened():
@@ -49,10 +52,27 @@ while cap.isOpened():
                         boxSize = boxes.xywh[i][2] * boxes.xywh[i][3]
                         id = boxes.id[i]
                         if id in boxesSizes:
-                            if boxSize - boxesSizes[id] > sizeChangeThreshold:
-                                print("Alert! One person is approaching!")
-                                print(boxSize)
-                                print(boxesSizes[id])
+                            sizeDiff = boxSize - boxesSizes[id]
+                            changePercent = sizeDiff / boxesSizes[id]
+                            if changePercent >= sizeChangeThreshold:
+                                isFast = False
+                                if changePercent >= fastSizeChangeThreshold:
+                                    isFast = True
+
+                                nowTime = time.time()
+                                toAlert = True
+                                if id in approachingAlertLock:
+                                    if nowTime - approachingAlertLock[id] <= approachingAlertLockTTL:
+                                        toAlert = False
+                                if toAlert:
+                                    approachingAlertLock[id] = nowTime
+                                    if isFast:
+                                        print("Alert! One person is approaching very fast!")
+                                    else:
+                                        print("Alert! One person is approaching!")
+                                    print("New boxSize:{}".format(boxSize))
+                                    print("Old boxSize:{}".format(boxesSizes[id]))
+                                    print("Percent:{}".format(changePercent))
                         boxesSizes[id] = boxSize
 
         frame_with_speed = speed_obj.estimate_speed(frame, tracks)
@@ -64,6 +84,8 @@ while cap.isOpened():
         # cv2.imshow("YOLOv8 Tracking with Dist", frame_with_dist)
         if frame_with_speed.size > 0:
             cv2.imshow("YOLOv8 Tracking with Speed", frame_with_speed)
+
+        time.sleep(1)
 
         # Break the loop if 'q' is pressed
         if cv2.waitKey(1) & 0xFF == ord("q"):
