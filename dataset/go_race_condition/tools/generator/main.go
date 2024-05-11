@@ -47,9 +47,6 @@ func main() {
 		}
 
 		if row[0] == "code" {
-			if err := sampleCsvWriter.Write(row); err != nil {
-				panic(err)
-			}
 			continue
 		}
 
