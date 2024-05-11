@@ -53,7 +53,7 @@ func main() {
 			continue
 		}
 
-		for i := 0; i < 20000; i++ {
+		for i := 0; i < 10000; i++ {
 			newCode := row[0]
 			newCode = strings.Replace(newCode, "{{placeholder_counter}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
 			newCode = strings.Replace(newCode, "{{placeholder_wait_group}}", gofakeit.Regex(`^[a-zA-Z][a-zA-Z0-9]+$`), -1)
