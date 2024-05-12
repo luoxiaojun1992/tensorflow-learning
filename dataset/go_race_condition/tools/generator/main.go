@@ -11,8 +11,8 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 )
 
-func main() {
-	sampleFd, err := os.Create("../../sample.csv")
+func generateTemplateData(dataType string) {
+	sampleFd, err := os.Create(fmt.Sprintf("../../%s.csv", dataType))
 	if err != nil {
 		panic(err)
 	}
@@ -85,4 +85,10 @@ func main() {
 	}
 
 	sampleCsvWriter.Flush()
+}
+
+func main() {
+	generateTemplateData("training")
+	generateTemplateData("validation")
+	generateTemplateData("testing")
 }
